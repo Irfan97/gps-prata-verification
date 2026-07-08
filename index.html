@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS PRATA - Official Verification Portal</title>
+    <!-- Tailwind CSS for modern mobile design -->
+    <script src="https://jsdelivr.net"></script>
+</head>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
+
+    <!-- The Student Verification Profile Card -->
+    <div id="student-card" class="bg-white rounded-2xl shadow-xl border border-slate-200 w-full max-w-md p-6 hidden">
+        <!-- Card Header -->
+        <div class="text-center border-b pb-4 mb-4">
+            <h1 class="text-xl font-bold text-emerald-700">G.P.S PRATA MOHMAND</h1>
+            <p class="text-xs text-slate-500 font-semibold tracking-wider uppercase">Government Verification Portal</p>
+        </div>
+
+        
+        <div class="flex items-start gap-4 mb-4">
+            <div class="flex-1">
+                <p class="text-xs text-slate-400 font-medium">STUDENT NAME</p>
+                <p id="st-name" class="text-lg font-bold text-slate-800 mb-2">-</p>
+                <p class="text-xs text-slate-400 font-medium">FATHER NAME</p>
+                <p id="f-name" class="text-base font-semibold text-slate-700">-</p>
+            </div>
+            <!-- Directly fetches image from your local repository folder -->
+            <img id="st-photo" src="" alt="Student Photo" class="w-28 h-28 object-cover rounded-xl border-2 border-emerald-600 bg-slate-100">
+        </div>
+
+        <!-- Metadata Information Layout Grid -->
+        <div class="grid grid-cols-2 gap-y-3 gap-x-4 border-t pt-4 text-sm">
+            <div>
+                <p class="text-xs text-slate-400 font-medium">STUDENT ID</p>
+                <p id="st-id" class="font-mono font-bold text-slate-800">-</p>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 font-medium">REGISTRATION STATUS</p>
+                <span id="st-status" class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase">-</span>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 font-medium">CLASS</p>
+                <p id="st-class" class="font-semibold text-slate-800">-</p>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 font-medium">GENDER</p>
+                <p id="st-gender" class="font-semibold text-slate-800">-</p>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 font-medium">DATE OF BIRTH</p>
+                <p id="st-dob" class="font-semibold text-slate-800">-</p>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 font-medium">BLOOD GROUP</p>
+                <p id="st-blood" class="font-bold text-red-600">-</p>
+            </div>
+            <div class="col-span-2">
+                <p class="text-xs text-slate-400 font-medium">EMERGENCY CONTACT</p>
+                <p id="st-emergency" class="font-semibold text-slate-800">-</p>
+            </div>
+            <div class="col-span-2">
+                <p class="text-xs text-slate-400 font-medium">ADDRESS</p>
+                <p id="st-address" class="text-xs text-slate-600 font-semibold">-</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Message Screen -->
+    <div id="message" class="text-center font-medium text-slate-500 max-w-sm px-4">
+        <p class="text-lg animate-pulse text-emerald-700">Initializing secure ID validation...</p>
+    </div>
+
+    <script>
+        // 1. Get the scanned ID parameter string from the URL path (?id=...)
+        const urlParams = new URLSearchParams(window.location.search);
+        const scannedId = urlParams.get('id');
+
+        if (!scannedId) {
+            document.getElementById('message').innerHTML = "<p class='text-red-600 font-bold'>❌ Verification Error:<br><span class='text-sm font-normal text-slate-500'>No identity token found in the scan parameter link.</span></p>";
+        } else {
+            // 2. Fetch your local CSV database file directly from the repository root
+            fetch('students.csv')
+                .then(response => response.text())
+                .then(text => {
+                    const lines = text.split("\n");
+                    if (lines.length < 2) throw new Error("Empty dataset");
+                    
+                    const headers = lines[0].split(",").map(h => h.trim());
+                    
+                    // Automatically find column placements
+                    const idIdx = headers.indexOf("ID_No");
+                    const nameIdx = headers.indexOf("St_Name");
+                    const fnameIdx = headers.indexOf("F_Name");
+                    const classIdx = headers.indexOf("Class");
+                    const genderIdx = headers.indexOf("Gender");
+                    const dobIdx = headers.indexOf("DOB");
+                    const bloodIdx = headers.indexOf("Blood_Grp");
+                    const phoneIdx = headers.indexOf("Emergency_No");
+                    const addrIdx = headers.indexOf("Address");
+                    const statusIdx = headers.indexOf("St_Status");
+                    const photoIdx = headers.indexOf("St_Photo");
+
+                    let matchFound = false;
+
+                    for (let i = 1; i < lines.length; i++) {
+                        if (!lines[i].trim()) continue;
+                        
+                        // Parse individual column data splitting by commas
+                        const row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(r => r.trim().replace(/"/g, ''));
+                        
+                        if (row[idIdx] === scannedId.trim()) {
+                            matchFound = true;
+                            
+                            // Inject database strings directly into the DOM fields
+                            document.getElementById('st-id').innerText = row[idIdx];
+                            document.getElementById('st-name').innerText = row[nameIdx];
+                            document.getElementById('f-name').innerText = row[fnameIdx];
+                            document.getElementById('st-class').innerText = row[classIdx];
+                            document.getElementById('st-gender').innerText = row[genderIdx];
+                            document.getElementById('st-dob').innerText = row[dobIdx];
+                            document.getElementById('st-blood').innerText = row[bloodIdx];
+                            document.getElementById('st-emergency').innerText = row[phoneIdx];
+                            document.getElementById('st-address').innerText = row[addrIdx];
+                            
+                            // Status Badge Color Configurations
+                            const statusBadge = document.getElementById('st-status');
+                            const statusVal = row[statusIdx] ? row[statusIdx].toLowerCase() : '';
+                            statusBadge.innerText = row[statusIdx] || '-';
+                            if(statusVal === 'active') {
+                                statusBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800 uppercase";
+                            } else if(statusVal === 'withdrawal') {
+                                statusBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 uppercase";
+                            } else {
+                                statusBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-800 uppercase";
+                            }
+
+                            // Dynamic Direct Image Asset Sourcing from your local photos folder
+                            document.getElementById('st-photo').src = "photos/" + row[photoIdx];
+
+                            // Switch viewport visibility states
+                            document.getElementById('message').classList.add('hidden');
+                            document.getElementById('student-card').classList.remove('hidden');
+                            break;
+                        }
+                    }
+
+                    if (!matchFound) {
+                        document.getElementById('message').innerHTML = `<p class='text-red-600 font-bold'>❌ Verification Record Not Found.<br><span class='text-sm text-slate-400 font-normal'>ID Token matching "${scannedId}" is missing from the institutional registry.</span></p>`;
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('message').innerHTML = "<p class='text-red-600 font-bold'>❌ System Data Link Interface Failure.<br><span class='text-xs font-normal text-slate-400'>Make sure 'students.csv' is uploaded correctly.</span></p>";
+                });
+        }
+    </script>
+</body>
+</html>
