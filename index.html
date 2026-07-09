@@ -3,151 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPS PRATA - Official Verification Portal</title>
-    <!-- Core Responsive Layout Stylesheet -->
+    <title>GPS PRATA - Verification</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; margin: 0; padding: 16px; display: flex; align-items: center; justify-content: center; min-height: 90vh; }
-        .id-card { background: white; border: 2px solid #047857; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); width: 100%; max-width: 480px; padding: 24px; box-sizing: border-box; display: none; }
-        .header { text-align: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 20px; }
-        .header h1 { margin: 0; color: #047857; font-size: 20px; font-weight: 800; letter-spacing: 0.5px; }
-        .header p { margin: 4px 0 0 0; color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        .profile-container { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 12px; }
+        body { font-family: -apple-system, sans-serif; background-color: #f1f5f9; margin: 0; padding: 12px; display: flex; align-items: center; justify-content: center; min-height: 95vh; }
+        .id-card { background: white; border: 2px solid #047857; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 490px; padding: 20px; box-sizing: border-box; display: none; }
+        .logo-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 0 10px; }
+        .logo-img { height: 65px; width: auto; object-fit: contain; }
+        .header { text-align: center; margin-bottom: 16px; }
+        .header h1 { margin: 4px 0 0 0; color: #047857; font-size: 16px; font-weight: 800; text-transform: uppercase; }
+        .header .sub-text { margin: 4px 0 0 0; color: #475569; font-size: 11px; font-weight: 700; }
+        .header .divider-line { height: 2px; background-color: #cbd5e1; margin: 10px 0; border: none; }
+        .header .status-tag { margin: 0; color: #047857; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; }
+        .profile-container { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 8px; }
         .details-side { flex: 1; display: flex; flex-direction: column; gap: 10px; }
-        .row-item { display: flex; font-size: 14px; line-height: 1.4; color: #1e293b; align-items: flex-start; }
-        .label { font-weight: 700; width: 110px; flex-shrink: 0; text-transform: uppercase; color: #475569; font-size: 12px; letter-spacing: 0.3px; }
-        .colon { width: 20px; flex-shrink: 0; font-weight: 700; color: #475569; text-align: center; }
-        .value { font-weight: 600; color: #0f172a; word-break: break-word; }
-        .photo-side { display: flex; flex-direction: column; align-items: center; gap: 12px; flex-shrink: 0; width: 120px; }
-        .passport-photo { width: 112px; height: 112px; object-cover: cover; border-radius: 8px; border: 2px solid #e2e8f0; background-color: #f8fafc; }
-        .photo-sub-data { width: 100%; display: flex; flex-direction: column; gap: 8px; font-size: 12px; background: #f8fafc; padding: 8px; border-radius: 6px; border: 1px solid #f1f5f9; box-sizing: border-box; }
-        .photo-sub-data .row-item { font-size: 12px; }
-        .photo-sub-data .label { width: 45px; font-size: 10px; }
-        .photo-sub-data .colon { width: 10px; }
-        .full-width-rows { border-top: 1px dashed #e2e8f0; padding-top: 12px; margin-top: 2px; display: flex; flex-direction: column; gap: 10px; }
-        .full-width-rows .label { width: 110px; }
-        .message-box { text-align: center; color: #475569; font-weight: 600; max-w: 320px; }
+        .row-item { display: flex; font-size: 13.5px; line-height: 1.4; color: #1e293b; }
+        .label { font-weight: 700; width: 105px; flex-shrink: 0; text-transform: uppercase; color: #475569; font-size: 10.5px; }
+        .colon { width: 15px; flex-shrink: 0; font-weight: 700; color: #475569; text-align: center; }
+        .value { font-weight: 600; color: #0f172a; flex-grow: 1; white-space: nowrap; }
+        .photo-side { flex-shrink: 0; width: 105px; text-align: center; }
+        .passport-photo { width: 100px; height: 115px; object-fit: cover; border-radius: 6px; border: 2px solid #047857; background-color: #f8fafc; }
+        .status-badge { font-weight: 800; text-transform: uppercase; font-size: 10px; padding: 2px 8px; border-radius: 4px; display: inline-block; }
+        .status-active { background-color: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+        .status-slc { background-color: #fef9c3; color: #a16207; border: 1px solid #fef08a; }
+        .status-left { background-color: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+        .full-width-rows { border-top: 1px dashed #cbd5e1; padding-top: 12px; margin-top: 4px; display: flex; flex-direction: column; gap: 10px; }
+        .full-width-rows .label { width: 105px; }
+        .full-width-rows .value { white-space: normal; word-break: break-word; }
+        .message-box { text-align: center; color: #475569; font-weight: 600; max-width: 320px; margin: auto; }
         .pulse { animation: pulse 2s infinite; color: #047857; font-size: 16px; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        @media (max-width: 440px) {
+            .label { width: 88px; font-size: 10px; } .row-item { font-size: 12.5px; } .value { font-size: 13px; }
+            .passport-photo { width: 90px; height: 105px; } .photo-side { width: 95px; }
+            .header h1 { font-size: 13.5px; } .header .sub-text { font-size: 9.5px; } .id-card { padding: 14px; } .logo-img { height: 50px; }
+        }
     </style>
 </head>
 <body>
-
-    
     <div id="student-card" class="id-card">
+        <div class="logo-row">
+            <img src="gov_logo.png" alt="Gov Logo" class="logo-img">
+            <img src="school_logo.jpg" alt="School Logo" class="logo-img">
+        </div>
         <div class="header">
-            <h1>G.P.S PRATA MOHMAND</h1>
-            <p>Official Digital Verification Card</p>
+            <h1>Government Primary School Prata</h1>
+            <p class="sub-text">Tehsil Haleemzai District Mohmand | EMIS: 61114</p>
+            <hr class="divider-line">
+            <p class="status-tag">Official Digital Verification Card</p>
         </div>
-
         <div class="profile-container">
-            <!-- Left Side Data Grid Grid (Primary Details Locked Left) -->
             <div class="details-side">
-                <div class="row-item">
-                    <span class="label">Name</span><span class="colon">:</span><span id="st-name" class="value">-</span>
-                </div>
-                <div class="row-item">
-                    <span class="label">Father Name</span><span class="colon">:</span><span id="f-name" class="value">-</span>
-                </div>
-                <div class="row-item">
-                    <span class="label">Class</span><span class="colon">:</span><span id="st-class" class="value">-</span>
-                </div>
-                <div class="row-item">
-                    <span class="label">Gender</span><span class="colon">:</span><span id="st-gender" class="value">-</span>
-                </div>
-                <div class="row-item">
-                    <span class="label">Date of Birth</span><span class="colon">:</span><span id="st-dob" class="value">-</span>
-                </div>
+                <div class="row-item"><span class="label">Name</span><span class="colon">:</span><span id="st-name" class="value">-</span></div>
+                <div class="row-item"><span class="label">Father Name</span><span class="colon">:</span><span id="f-name" class="value">-</span></div>
+                <div class="row-item"><span class="label">Class</span><span class="colon">:</span><span id="st-class" class="value">-</span></div>
+                <div class="row-item"><span class="label">Gender</span><span class="colon">:</span><span id="st-gender" class="value">-</span></div>
+                <div class="row-item"><span class="label">Date of Birth</span><span class="colon">:</span><span id="st-dob" class="value">-</span></div>
+                <div class="row-item"><span class="label">Blood Group</span><span class="colon">:</span><span id="st-blood" class="value" style="color: #dc2626;">-</span></div>
+                <div class="row-item"><span class="label">Status</span><span class="colon">:</span><span class="value"><span id="st-status" class="status-badge status-active">-</span></span></div>
+                <div class="row-item"><span class="label">Mobile No</span><span class="colon">:</span><span id="st-emergency" class="value">-</span></div>
             </div>
-
-            <!-- Right Side Profile Components Block (Passport Photo + Emergency No) -->
-            <div class="photo-side">
-                <img id="st-photo" src="" alt="Student Photo" class="passport-photo">
-                <div class="photo-sub-data">
-                    <div class="row-item">
-                        <span class="label">EMG NO</span><span class="colon">:</span><span id="st-emergency" class="value" style="font-size:11px;">-</span>
-                    </div>
-                </div>
-            </div>
+            <div class="photo-side"><img id="st-photo" src="" alt="Student Photo" class="passport-photo"></div>
         </div>
-
-        <!-- Full Width Base Rows Layout (Student ID & Address) -->
         <div class="full-width-rows">
-            <div class="row-item">
-                <span class="label">Student ID No</span><span class="colon">:</span><span id="st-id" class="value" style="font-family:monospace; font-size:15px; color:#047857;">-</span>
-            </div>
-            <div class="row-item">
-                <span class="label">Address</span><span class="colon">:</span><span id="st-address" class="value" style="font-weight:500; color:#334155;">-</span>
-            </div>
+            <div class="row-item"><span class="label">Student ID No</span><span class="colon">:</span><span id="st-id" class="value" style="font-family:monospace; font-size:14px; color:#047857; font-weight:700;">-</span></div>
+            <div class="row-item"><span class="label">Address</span><span class="colon">:</span><span id="st-address" class="value" style="font-weight:500; color:#475569;">-</span></div>
+            <div class="row-item" style="border-top:1px dotted #e2e8f0; padding-top:8px; margin-top:2px;"><span class="label" style="color:#94a3b8;">Card Expiry</span><span class="colon" style="color:#94a3b8;">:</span><span id="st-expiry" class="value" style="color:#94a3b8; font-size:12px;">-</span></div>
         </div>
     </div>
+    <div id="message" class="message-box"><p class="pulse">Reading ID Card data...</p></div>
 
-    <!-- Active Loading Screen Hub -->
-    <div id="message" class="message-box">
-        <p class="pulse">Reading ID Card scanner data...</p>
-    </div>
-
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const scannedId = urlParams.get('id');
-
-        if (!scannedId) {
-            document.getElementById('message').innerHTML = "<p style='color:#dc2626; font-size:16px; margin:0;'>❌ Verification Error:<br><span style='font-size:13px; font-weight:normal; color:#64748b;'>No identity token found in the link.</span></p>";
+        <script>
+        const params = new URLSearchParams(window.location.search);
+        const sid = params.get('id');
+        if (!sid) {
+            document.getElementById('message').innerHTML = "<p style='color:#dc2626; margin:0;'>❌ Verification Error:<br><span style='font-size:13px; color:#64748b;'>No identity token found.</span></p>";
         } else {
             fetch('students.csv')
-                .then(response => response.text())
+                .then(r => r.text())
                 .then(text => {
                     const lines = text.split("\n");
-                    if (lines.length < 2) throw new Error("Dataset is empty");
-                    
-                    // Direct header configuration row map parsing
-                    const headers = lines[0].split(",").map(h => h.trim().replace(/"/g, ''));
-                    
-                    const idIdx = headers.indexOf("ID_No");
-                    const nameIdx = headers.indexOf("St_Name");
-                    const fnameIdx = headers.indexOf("F_Name");
-                    const classIdx = headers.indexOf("Class");
-                    const genderIdx = headers.indexOf("Gender");
-                    const dobIdx = headers.indexOf("DOB");
-                    const phoneIdx = headers.indexOf("Emergency_No");
-                    const addrIdx = headers.indexOf("Address");
-                    const photoIdx = headers.indexOf("St_Photo");
-
-                    let matchFound = false;
-
+                    const hd = lines[0].split(",").map(h => h.trim().replace(/"/g, ''));
+                    const iId = hd.indexOf("ID_No"), iNm = hd.indexOf("St_Name"), iFn = hd.indexOf("F_Name"), iCl = hd.indexOf("Class"), iGn = hd.indexOf("Gender"), iDb = hd.indexOf("DOB"), iBl = hd.indexOf("Blood_Grp"), iPh = hd.indexOf("Emergency_No"), iAd = hd.indexOf("Address"), iSt = hd.indexOf("St_Status"), iPt = hd.indexOf("St_Photo"), iEx = hd.indexOf("Expiry_Date");
+                    let found = false;
                     for (let i = 1; i < lines.length; i++) {
                         if (!lines[i].trim()) continue;
                         const row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(r => r.trim().replace(/"/g, ''));
-                        
-                        if (row[idIdx] === scannedId.trim()) {
-                            matchFound = true;
-                            
-                            // DOM elements structural mappings injection
-                            document.getElementById('st-id').innerText = row[idIdx];
-                            document.getElementById('st-name').innerText = row[nameIdx];
-                            document.getElementById('f-name').innerText = row[fnameIdx];
-                            document.getElementById('st-class').innerText = row[classIdx];
-                            document.getElementById('st-gender').innerText = row[genderIdx];
-                            document.getElementById('st-dob').innerText = row[dobIdx];
-                            document.getElementById('st-emergency').innerText = row[phoneIdx];
-                            document.getElementById('st-address').innerText = row[addrIdx];
-                            
-                            // Sets local folder structural picture reference bindings 
-                            document.getElementById('st-photo').src = "photos/" + row[photoIdx];
-
-                            // Switch interface frame viewports instantly
+                        if (row[iId] === sid.trim()) {
+                            found = true;
+                            document.getElementById('st-id').innerText = row[iId];
+                            document.getElementById('st-name').innerText = row[iNm];
+                            document.getElementById('f-name').innerText = row[iFn];
+                            document.getElementById('st-class').innerText = row[iCl];
+                            document.getElementById('st-gender').innerText = row[iGn];
+                            document.getElementById('st-dob').innerText = row[iDb];
+                            document.getElementById('st-blood').innerText = row[iBl] || '-';
+                            document.getElementById('st-emergency').innerText = row[iPh];
+                            document.getElementById('st-address').innerText = row[iAd];
+                            document.getElementById('st-expiry').innerText = row[iEx] || 'N/A';
+                            const badge = document.getElementById('st-status');
+                            const stText = row[iSt] ? row[iSt].trim() : 'Active';
+                            badge.innerText = stText;
+                            const norm = stText.toLowerCase();
+                            if (norm === 'active') badge.className = "status-badge status-active";
+                            else if (norm === 'slc issued' || norm === 'slc') badge.className = "status-badge status-slc";
+                            else badge.className = "status-badge status-left";
+                            document.getElementById('st-photo').src = "photos/" + row[iPt];
                             document.getElementById('message').style.display = 'none';
                             document.getElementById('student-card').style.display = 'block';
                             break;
                         }
                     }
-
-                    if (!matchFound) {
-                        document.getElementById('message').innerHTML = `<p style='color:#dc2626; font-size:16px; margin:0;'>❌ Record Not Found.<br><span style='font-size:13px; font-weight:normal; color:#64748b;'>ID Card payload match values are missing.</span></p>`;
-                    }
+                    if (!found) document.getElementById('message').innerHTML = "<p style='color:#dc2626; margin:0;'>❌ Record Not Found.</p>";
                 })
-                .catch(err => {
-                    document.getElementById('message').innerHTML = "<p style='color:#dc2626; font-size:16px; margin:0;'>❌ System Link Failure.<br><span style='font-size:12px; font-weight:normal; color:#64748b;'>Database array structural parsing mismatch.</span></p>";
-                });
+                .catch(e => { document.getElementById('message').innerHTML = "<p style='color:#dc2626; margin:0;'>❌ Connection Error.</p>"; });
         }
     </script>
 </body>
