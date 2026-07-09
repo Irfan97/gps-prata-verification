@@ -3,63 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPS PRATA - Verification Portal</title>
-    <script src="https://jsdelivr.net"></script>
+    <title>GPS PRATA - Official Verification Portal</title>
+    <!-- Core Responsive Layout Stylesheet -->
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; margin: 0; padding: 16px; display: flex; align-items: center; justify-content: center; min-height: 90vh; }
+        .id-card { background: white; border: 2px solid #047857; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); width: 100%; max-width: 480px; padding: 24px; box-sizing: border-box; display: none; }
+        .header { text-align: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 20px; }
+        .header h1 { margin: 0; color: #047857; font-size: 20px; font-weight: 800; letter-spacing: 0.5px; }
+        .header p { margin: 4px 0 0 0; color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .profile-container { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 12px; }
+        .details-side { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+        .row-item { display: flex; font-size: 14px; line-height: 1.4; color: #1e293b; align-items: flex-start; }
+        .label { font-weight: 700; width: 110px; flex-shrink: 0; text-transform: uppercase; color: #475569; font-size: 12px; letter-spacing: 0.3px; }
+        .colon { width: 20px; flex-shrink: 0; font-weight: 700; color: #475569; text-align: center; }
+        .value { font-weight: 600; color: #0f172a; word-break: break-word; }
+        .photo-side { display: flex; flex-direction: column; align-items: center; gap: 12px; flex-shrink: 0; width: 120px; }
+        .passport-photo { width: 112px; height: 112px; object-cover: cover; border-radius: 8px; border: 2px solid #e2e8f0; background-color: #f8fafc; }
+        .photo-sub-data { width: 100%; display: flex; flex-direction: column; gap: 8px; font-size: 12px; background: #f8fafc; padding: 8px; border-radius: 6px; border: 1px solid #f1f5f9; box-sizing: border-box; }
+        .photo-sub-data .row-item { font-size: 12px; }
+        .photo-sub-data .label { width: 45px; font-size: 10px; }
+        .photo-sub-data .colon { width: 10px; }
+        .full-width-rows { border-top: 1px dashed #e2e8f0; padding-top: 12px; margin-top: 2px; display: flex; flex-direction: column; gap: 10px; }
+        .full-width-rows .label { width: 110px; }
+        .message-box { text-align: center; color: #475569; font-weight: 600; max-w: 320px; }
+        .pulse { animation: pulse 2s infinite; color: #047857; font-size: 16px; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    </style>
 </head>
-<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
+<body>
 
-    <!-- Exact 9-Field Profile Card Viewport -->
-    <div id="student-card" class="bg-white rounded-2xl shadow-xl border border-slate-200 w-full max-w-md p-6 hidden">
-        <!-- Header -->
-        <div class="text-center border-b pb-4 mb-4">
-            <h1 class="text-xl font-bold text-emerald-700">G.P.S PRATA MOHMAND</h1>
-            <p class="text-xs text-slate-500 font-semibold uppercase">Official Digital Verification</p>
+    
+    <div id="student-card" class="id-card">
+        <div class="header">
+            <h1>G.P.S PRATA MOHMAND</h1>
+            <p>Official Digital Verification Card</p>
         </div>
 
-        
-        <div class="flex items-start gap-4 mb-4">
-            <div class="flex-1">
-                <p class="text-xs text-slate-400 font-medium">NAME</p>
-                <p id="st-name" class="text-lg font-bold text-slate-800 mb-2">-</p>
-                <p class="text-xs text-slate-400 font-medium">FATHER NAME</p>
-                <p id="f-name" class="text-base font-semibold text-slate-700">-</p>
+        <div class="profile-container">
+            <!-- Left Side Data Grid Grid (Primary Details Locked Left) -->
+            <div class="details-side">
+                <div class="row-item">
+                    <span class="label">Name</span><span class="colon">:</span><span id="st-name" class="value">-</span>
+                </div>
+                <div class="row-item">
+                    <span class="label">Father Name</span><span class="colon">:</span><span id="f-name" class="value">-</span>
+                </div>
+                <div class="row-item">
+                    <span class="label">Class</span><span class="colon">:</span><span id="st-class" class="value">-</span>
+                </div>
+                <div class="row-item">
+                    <span class="label">Gender</span><span class="colon">:</span><span id="st-gender" class="value">-</span>
+                </div>
+                <div class="row-item">
+                    <span class="label">Date of Birth</span><span class="colon">:</span><span id="st-dob" class="value">-</span>
+                </div>
             </div>
-            <!-- Student Photo -->
-            <img id="st-photo" src="" alt="Student Photo" class="w-28 h-28 object-cover rounded-xl border-2 border-emerald-600 bg-slate-100">
+
+            <!-- Right Side Profile Components Block (Passport Photo + Emergency No) -->
+            <div class="photo-side">
+                <img id="st-photo" src="" alt="Student Photo" class="passport-photo">
+                <div class="photo-sub-data">
+                    <div class="row-item">
+                        <span class="label">EMG NO</span><span class="colon">:</span><span id="st-emergency" class="value" style="font-size:11px;">-</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Information Metric Layout Grid (Remaining 6 Fields) -->
-        <div class="grid grid-cols-2 gap-y-3 gap-x-4 border-t pt-4 text-sm">
-            <div class="col-span-2">
-                <p class="text-xs text-slate-400 font-medium">ID NO</p>
-                <p id="st-id" class="font-mono font-bold text-slate-800">-</p>
+        <!-- Full Width Base Rows Layout (Student ID & Address) -->
+        <div class="full-width-rows">
+            <div class="row-item">
+                <span class="label">Student ID No</span><span class="colon">:</span><span id="st-id" class="value" style="font-family:monospace; font-size:15px; color:#047857;">-</span>
             </div>
-            <div>
-                <p class="text-xs text-slate-400 font-medium">CLASS</p>
-                <p id="st-class" class="font-semibold text-slate-800">-</p>
-            </div>
-            <div>
-                <p class="text-xs text-slate-400 font-medium">GENDER</p>
-                <p id="st-gender" class="font-semibold text-slate-800">-</p>
-            </div>
-            <div class="col-span-2">
-                <p class="text-xs text-slate-400 font-medium">DATE OF BIRTH</p>
-                <p id="st-dob" class="font-semibold text-slate-800">-</p>
-            </div>
-            <div class="col-span-2">
-                <p class="text-xs text-slate-400 font-medium">EMERGENCY NO</p>
-                <p id="st-emergency" class="font-semibold text-slate-800">-</p>
-            </div>
-            <div class="col-span-2">
-                <p class="text-xs text-slate-400 font-medium">ADDRESS</p>
-                <p id="st-address" class="text-xs text-slate-600 font-semibold">-</p>
+            <div class="row-item">
+                <span class="label">Address</span><span class="colon">:</span><span id="st-address" class="value" style="font-weight:500; color:#334155;">-</span>
             </div>
         </div>
     </div>
 
-    <!-- Interface Prompt Message Screen -->
-    <div id="message" class="text-center font-medium text-slate-500 max-w-sm px-4">
-        <p class="text-lg animate-pulse text-emerald-700">Reading ID Card scanner data...</p>
+    <!-- Active Loading Screen Hub -->
+    <div id="message" class="message-box">
+        <p class="pulse">Reading ID Card scanner data...</p>
     </div>
 
     <script>
@@ -67,7 +91,7 @@
         const scannedId = urlParams.get('id');
 
         if (!scannedId) {
-            document.getElementById('message').innerHTML = "<p class='text-red-600 font-bold'>❌ Verification Error:<br><span class='text-sm font-normal text-slate-500'>No identity token found in the scan parameter link.</span></p>";
+            document.getElementById('message').innerHTML = "<p style='color:#dc2626; font-size:16px; margin:0;'>❌ Verification Error:<br><span style='font-size:13px; font-weight:normal; color:#64748b;'>No identity token found in the link.</span></p>";
         } else {
             fetch('students.csv')
                 .then(response => response.text())
@@ -75,6 +99,7 @@
                     const lines = text.split("\n");
                     if (lines.length < 2) throw new Error("Dataset is empty");
                     
+                    // Direct header configuration row map parsing
                     const headers = lines[0].split(",").map(h => h.trim().replace(/"/g, ''));
                     
                     const idIdx = headers.indexOf("ID_No");
@@ -96,6 +121,7 @@
                         if (row[idIdx] === scannedId.trim()) {
                             matchFound = true;
                             
+                            // DOM elements structural mappings injection
                             document.getElementById('st-id').innerText = row[idIdx];
                             document.getElementById('st-name').innerText = row[nameIdx];
                             document.getElementById('f-name').innerText = row[fnameIdx];
@@ -105,21 +131,22 @@
                             document.getElementById('st-emergency').innerText = row[phoneIdx];
                             document.getElementById('st-address').innerText = row[addrIdx];
                             
-                            // Load image from local photos repository folder
+                            // Sets local folder structural picture reference bindings 
                             document.getElementById('st-photo').src = "photos/" + row[photoIdx];
 
-                            document.getElementById('message').classList.add('hidden');
-                            document.getElementById('student-card').classList.remove('hidden');
+                            // Switch interface frame viewports instantly
+                            document.getElementById('message').style.display = 'none';
+                            document.getElementById('student-card').style.display = 'block';
                             break;
                         }
                     }
 
                     if (!matchFound) {
-                        document.getElementById('message').innerHTML = `<p class='text-red-600 font-bold'>❌ Verification Record Not Found.<br><span class='text-sm text-slate-400 font-normal'>ID Token matching "${scannedId}" is missing from the institutional registry.</span></p>`;
+                        document.getElementById('message').innerHTML = `<p style='color:#dc2626; font-size:16px; margin:0;'>❌ Record Not Found.<br><span style='font-size:13px; font-weight:normal; color:#64748b;'>ID Card payload match values are missing.</span></p>`;
                     }
                 })
                 .catch(err => {
-                    document.getElementById('message').innerHTML = "<p class='text-red-600 font-bold'>❌ System Data Link Interface Failure.<br><span class='text-xs font-normal text-slate-400'>Make sure 'students.csv' is uploaded correctly.</span></p>";
+                    document.getElementById('message').innerHTML = "<p style='color:#dc2626; font-size:16px; margin:0;'>❌ System Link Failure.<br><span style='font-size:12px; font-weight:normal; color:#64748b;'>Database array structural parsing mismatch.</span></p>";
                 });
         }
     </script>
